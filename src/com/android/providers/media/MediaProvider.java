@@ -242,6 +242,7 @@ public class MediaProvider extends ContentProvider {
                     sFolderArtMap.clear();
                     MiniThumbFile.reset();
                 } else {
+/*
                     // If secondary external storage is ejected, then we delete all database
                     // entries for that storage from the files table.
                     synchronized (mDatabases) {
@@ -295,7 +296,7 @@ public class MediaProvider extends ContentProvider {
                                 mDisableMtpObjectCallbacks = false;
                             }
                         }
-                    }
+                    }*/
                 }
             }
         }
