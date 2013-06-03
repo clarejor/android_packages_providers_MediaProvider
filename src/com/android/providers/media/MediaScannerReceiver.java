@@ -32,7 +32,10 @@ public class MediaScannerReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         final String action = intent.getAction();
         final Uri uri = intent.getData();
-        if (Intent.ACTION_BOOT_COMPLETED.equals(action)) {
+        if (Intent.ACTION_BOOT_COMPLETED.equals(action) ||
+            "media.scanner.scan.now".equals(action)) {
+            
+            Log.d(TAG, "Scanning all media");
             // Scan both internal and external storage
             scan(context, MediaProvider.INTERNAL_VOLUME);
             scan(context, MediaProvider.EXTERNAL_VOLUME);
@@ -46,7 +49,12 @@ public class MediaScannerReceiver extends BroadcastReceiver {
                 Log.d(TAG, "action: " + action + " path: " + path);
                 if (Intent.ACTION_MEDIA_MOUNTED.equals(action)) {
                     // scan whenever any volume is mounted
-                    //scan(context, MediaProvider.EXTERNAL_VOLUME);
+                    if("true".equals(SystemProperties.get("media.scanner.ignore.mount") {
+                        Log.d(TAG, "not scanning media on mount because \"media.scanner.ignore.mount\" is set");
+                    } else {
+                        Log.d(TAG, "scanning media due to ACTION_MEDIA_MOUNTED");
+                        scan(context, MediaProvider.EXTERNAL_VOLUME);
+                    }
                 } else if (Intent.ACTION_MEDIA_SCANNER_SCAN_FILE.equals(action) &&
                         path != null && path.startsWith(externalStoragePath + "/")) {
                     scanFile(context, path);

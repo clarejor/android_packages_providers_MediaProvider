@@ -242,13 +242,17 @@ public class MediaProvider extends ContentProvider {
                     sFolderArtMap.clear();
                     MiniThumbFile.reset();
                 } else {
-/*
                     // If secondary external storage is ejected, then we delete all database
                     // entries for that storage from the files table.
                     synchronized (mDatabases) {
                         // Don't delete entries if the eject is due to a shutdown
                         if (!"".equals(SystemProperties.get("sys.shutdown.requested"))) {
                             Log.d(TAG, "not deleting entries on eject due to shtudown");
+                            return;
+                        }
+
+                        if("true".equals(SystemProperties.get("media.scanner.ignore.mount") {
+                            Log.d(TAG, "not deleting entries on eject because \"media.scanner.ignore.mount\" is set");
                             return;
                         }
 
@@ -296,7 +300,7 @@ public class MediaProvider extends ContentProvider {
                                 mDisableMtpObjectCallbacks = false;
                             }
                         }
-                    }*/
+                    }
                 }
             }
         }
