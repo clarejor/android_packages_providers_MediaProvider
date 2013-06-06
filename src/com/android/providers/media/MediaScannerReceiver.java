@@ -23,6 +23,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.SystemProperties;
 import android.util.Log;
 
 public class MediaScannerReceiver extends BroadcastReceiver {
@@ -32,6 +33,9 @@ public class MediaScannerReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         final String action = intent.getAction();
         final Uri uri = intent.getData();
+        Log.d("JORDAN", "### MediaScanner received " + action);
+        String ignoreMount = SystemProperties.get("media.scanner.ignore.mount");
+        Log.d("JORDAN", "media.scanner.ignore.mount: " + ignoreMount);
         if (Intent.ACTION_BOOT_COMPLETED.equals(action) ||
             "media.scanner.scan.now".equals(action)) {
             
@@ -49,7 +53,7 @@ public class MediaScannerReceiver extends BroadcastReceiver {
                 Log.d(TAG, "action: " + action + " path: " + path);
                 if (Intent.ACTION_MEDIA_MOUNTED.equals(action)) {
                     // scan whenever any volume is mounted
-                    if("true".equals(SystemProperties.get("media.scanner.ignore.mount") {
+                    if(ignoreMount.equals("true")) {
                         Log.d(TAG, "not scanning media on mount because \"media.scanner.ignore.mount\" is set");
                     } else {
                         Log.d(TAG, "scanning media due to ACTION_MEDIA_MOUNTED");

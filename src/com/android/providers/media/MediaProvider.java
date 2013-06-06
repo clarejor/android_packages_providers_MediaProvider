@@ -251,7 +251,7 @@ public class MediaProvider extends ContentProvider {
                             return;
                         }
 
-                        if("true".equals(SystemProperties.get("media.scanner.ignore.mount") {
+                        if("true".equals(SystemProperties.get("media.scanner.ignore.mount"))) {
                             Log.d(TAG, "not deleting entries on eject because \"media.scanner.ignore.mount\" is set");
                             return;
                         }
