@@ -34,8 +34,8 @@ public class MediaScannerReceiver extends BroadcastReceiver {
         final String action = intent.getAction();
         final Uri uri = intent.getData();
         Log.d("JORDAN", "### MediaScanner received " + action);
-        String ignoreMount = SystemProperties.get("media.scanner.ignore.mount");
-        Log.d("JORDAN", "media.scanner.ignore.mount: " + ignoreMount);
+        String ignoreMount = SystemProperties.get("persist.sys.noscan_mount");
+        Log.d("JORDAN", "noscan_mount: " + ignoreMount);
         if (Intent.ACTION_BOOT_COMPLETED.equals(action) ||
             "media.scanner.scan.now".equals(action)) {
             
@@ -53,8 +53,8 @@ public class MediaScannerReceiver extends BroadcastReceiver {
                 Log.d(TAG, "action: " + action + " path: " + path);
                 if (Intent.ACTION_MEDIA_MOUNTED.equals(action)) {
                     // scan whenever any volume is mounted
-                    if(ignoreMount.equals("true")) {
-                        Log.d(TAG, "not scanning media on mount because \"media.scanner.ignore.mount\" is set");
+                    if(ignoreMount.equals("1")) {
+                        Log.d(TAG, "not scanning media on mount because \"noscan_mount\" is set");
                     } else {
                         Log.d(TAG, "scanning media due to ACTION_MEDIA_MOUNTED");
                         scan(context, MediaProvider.EXTERNAL_VOLUME);
